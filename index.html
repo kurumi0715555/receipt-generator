@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="宛名を複数一括入力して領収書を印刷・PDF保存できる教員向けツール。Excelからの貼り付けにも対応。無料・登録不要。">
+    
+    
+    <link rel="stylesheet" href="common/css/common.css">
+    <link rel="stylesheet" href="common/css/modal.css">
+    <link rel="stylesheet" href="common/css/landscape-guard.css">
+    <link rel="stylesheet" href="css/receipt-generator.css">
+    <link rel="stylesheet" href="common/vendor/fontawesome/css/fontawesome.css">
+<link rel="stylesheet" href="common/vendor/fontawesome/css/solid.css">
+<title>領収書ジェネレーター</title>
+<link rel="stylesheet" href="oss/standalone.css">
+<script defer src="oss/standalone.js"></script>
+</head>
+
+<body data-tablet-ok="true">
+    <div class="site-wrapper">
+        <aside class="ad-left">
+            <!-- Ads injected by common-ads.js -->
+        </aside>
+
+        <div class="container">
+            <header>
+                <!-- Header will be injected by common-header.js -->
+                <h1><i class="fas fa-file-invoice"></i> 領収書ジェネレーター</h1>
+                <p class="subtitle">記録・保護者配布用の領収書をすぐに作成</p>
+            </header>
+
+            <main>
+                <!-- 入力エリア（印刷時非表示） -->
+                <div class="input-area no-print">
+
+                    <div class="form-columns">
+                        <!-- 発行者情報 -->
+                        <section class="form-section">
+                            <h2 class="section-title"><i class="fas fa-building"></i> 発行者情報</h2>
+                            <div class="form-group">
+                                <label for="issuerName">発行者名 <span class="required">必須</span></label>
+                                <input type="text" id="issuerName" placeholder="例：〇〇中学校 PTA">
+                            </div>
+                            <div class="form-group">
+                                <label for="issuerAddress">住所（省略可）</label>
+                                <input type="text" id="issuerAddress" placeholder="例：東京都〇〇市〇〇町1-2-3">
+                            </div>
+                            <div class="form-group">
+                                <label for="issuerTel">電話番号（省略可）</label>
+                                <input type="text" id="issuerTel" placeholder="例：03-1234-5678">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="showStamp">
+                                    収入印紙欄を表示する
+                                </label>
+                            </div>
+                            <button class="btn-save" id="saveIssuerBtn">
+                                <i class="fas fa-floppy-disk"></i> 発行者情報を保存
+                            </button>
+                        </section>
+
+                        <!-- 領収書情報 -->
+                        <section class="form-section">
+                            <h2 class="section-title"><i class="fas fa-receipt"></i> 領収書情報</h2>
+                            <div class="form-group">
+                                <label for="receiptDate">日付 <span class="required">必須</span></label>
+                                <input type="date" id="receiptDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">金額（円） <span class="required">必須</span></label>
+                                <input type="number" id="amount" placeholder="例：3000" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="purpose">但し書き <span class="required">必須</span></label>
+                                <input type="text" id="purpose" placeholder="例：修学旅行積立金として">
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- 宛名入力 -->
+                    <section class="form-section names-section">
+                        <h2 class="section-title"><i class="fas fa-users"></i> 宛名</h2>
+                        <p class="hint">
+                            <i class="fas fa-circle-info"></i>
+                            1行に1名で入力してください。Excelからコピー＆ペーストも可能です（複数列ある場合は一番左の列が使われます）。
+                        </p>
+                        <textarea id="nameList" placeholder="山田 太郎&#10;鈴木 花子&#10;佐藤 一郎" rows="6" spellcheck="false"></textarea>
+                        <div class="name-count" id="nameCount">0 名</div>
+                    </section>
+
+                    <!-- アクションボタン -->
+                    <div class="action-bar">
+                        <button class="btn-generate" id="generateBtn">
+                            <i class="fas fa-file-invoice"></i> 領収書を生成
+                        </button>
+                        <button class="btn-print" id="printBtn" disabled>
+                            <i class="fas fa-print"></i> 印刷 / PDF保存
+                        </button>
+                    </div>
+                </div>
+
+                <!-- プレビューエリア（印刷時はここだけ表示） -->
+                <div class="receipts-area" id="receiptsArea">
+                    <div class="preview-placeholder no-print" id="placeholder">
+                        <i class="fas fa-file-invoice"></i>
+                        <p>発行者情報・領収書情報・宛名を入力して<br>「領収書を生成」を押してください</p>
+                    </div>
+                </div>
+            </main>
+
+            <div class="ad-horizontal no-print">
+                <div class="ad-label">広告</div>
+                <div class="ad-horizontal-content">
+                    <i class="fas fa-rectangle-ad"></i>
+                    <p>728×90 レクタングル（大）バナー広告</p>
+                </div>
+            </div>
+
+            <footer>
+                <!-- Footer will be injected by common-footer.js -->
+            </footer>
+        </div>
+
+        <aside class="ad-right">
+            <!-- Ads injected by common-ads.js -->
+        </aside>
+    </div>
+
+    <script src="common/js/common-modal.js"></script>
+    
+    
+    
+    
+    
+    <script src="js/receipt-generator.js"></script>
+    <script src="common/js/landscape-guard.js"></script>
+</body>
+
+</html>

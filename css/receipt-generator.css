@@ -1,0 +1,599 @@
+/* ================================================
+   領収書ジェネレーター — スクリーン用スタイル
+   ================================================ */
+
+/* ---------- ローカル token ----------
+   領収書は「公的書類=濃緑」という世間慣習を尊重し、公式 brand
+   シアン (--primary-color: #006064) には統合しない。
+   緑トーンを保持するため、本ツール専用 token を新設して
+   ハードコード値を一箇所に集約する（2026-05-21 決定）。
+*/
+:root {
+    --receipt-accent: #2c5f2e;         /* 領収書アクセント濃緑 */
+    --receipt-accent-dark: #1e4020;    /* hover 用 */
+    --receipt-accent-soft: rgba(44, 95, 46, 0.15); /* focus ring 内側 */
+}
+
+/* ---------- 入力エリア ---------- */
+.input-area {
+    background: var(--white);
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.form-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 700px) {
+    .form-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--receipt-accent);
+    border-bottom: 2px solid var(--receipt-accent);
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+}
+
+.section-title i {
+    margin-right: 6px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray-darker);
+    margin-bottom: 4px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--receipt-accent);
+    box-shadow: 0 0 0 2px var(--receipt-accent-soft);
+}
+
+.checkbox-label {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.required {
+    display: inline-block;
+    background: var(--danger-color);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: var(--border-radius-small);
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* 発行者保存ボタン */
+.btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gray-lighter);
+    border: 1px solid var(--gray);
+    color: var(--gray-darker);
+    padding: 7px 14px;
+    border-radius: var(--border-radius-small);
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.15s;
+}
+
+.btn-save:hover {
+    background: var(--gray-light);
+}
+
+.btn-save.saved {
+    background: var(--success-tint);
+    border-color: var(--receipt-accent);
+    color: var(--receipt-accent);
+}
+
+/* 宛名エリア */
+.names-section {
+    margin-bottom: 20px;
+}
+
+.hint {
+    font-size: 0.82rem;
+    color: var(--gray-darker);
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+
+.hint i {
+    color: var(--info-color);
+    margin-right: 4px;
+}
+
+#nameList {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-size: 0.95rem;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+#nameList:focus {
+    outline: none;
+    border-color: var(--receipt-accent);
+    box-shadow: 0 0 0 2px var(--receipt-accent-soft);
+}
+
+.name-count {
+    text-align: right;
+    font-size: 0.82rem;
+    color: var(--gray-dark);
+    margin-top: 4px;
+}
+
+/* アクションボタン */
+.action-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-generate {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--receipt-accent);
+    color: var(--white);
+    border: none;
+    padding: 10px 24px;
+    border-radius: var(--border-radius-small);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-generate:hover {
+    background: var(--receipt-accent-dark);
+}
+
+.btn-print {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--info-color);
+    color: var(--white);
+    border: none;
+    padding: 10px 24px;
+    border-radius: var(--border-radius-small);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-print:hover:not(:disabled) {
+    background: var(--primary-color);
+}
+
+.btn-print:disabled {
+    background: var(--gray-dark);
+    cursor: not-allowed;
+}
+
+/* ---------- プレビューエリア ---------- */
+.receipts-area {
+    margin-bottom: 32px;
+}
+
+.preview-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray-dark);
+    border: 2px dashed var(--gray);
+    border-radius: var(--border-radius);
+}
+
+.preview-placeholder i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.preview-placeholder p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+/* ---------- 領収書グループ（印刷1ページ分。常に3枚単位） ---------- */
+.receipt-group {
+    margin-bottom: 16px;
+}
+
+/* ---------- 領収書1枚 ---------- */
+.receipt {
+    background: var(--white);
+    border: 1px solid var(--gray-dark);
+    padding: 28px 36px;
+    max-width: 680px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+.receipt-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--text-color);
+    margin: 0 0 24px 0;
+    color: var(--text-color);
+}
+
+/* 宛名行 */
+.recipient-line {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    margin-bottom: 22px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--text-color);
+}
+
+.recipient-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    flex: 1;
+    letter-spacing: 0.05em;
+    color: var(--text-color);
+}
+
+.recipient-sama {
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    padding-bottom: 2px;
+    color: var(--text-color);
+}
+
+/* 金額行 */
+.amount-line {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    background: var(--gray-lighter);
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius-small);
+}
+
+.amount-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    white-space: nowrap;
+}
+
+.amount-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.amount-yen {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.amount-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-color);
+    border-bottom: 2px double var(--text-color);
+    padding-bottom: 2px;
+}
+
+.amount-nari {
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* 但し書き */
+.purpose-line {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray);
+}
+
+.purpose-label {
+    font-size: 0.95rem;
+    color: var(--gray-darker);
+    white-space: nowrap;
+}
+
+.purpose-value {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    flex: 1;
+}
+
+/* フッター（日付・発行者） */
+.receipt-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.receipt-date-issuer {
+    text-align: right;
+}
+
+.receipt-date {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.issuer-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 4px;
+}
+
+.issuer-address,
+.issuer-tel {
+    font-size: 0.8rem;
+    color: var(--gray-darker);
+    margin-bottom: 2px;
+}
+
+/* 収入印紙欄（@media print 内でもグレー破線を保持するため固定色は意図的） */
+.stamp-box {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--gray-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--gray-dark);
+    text-align: center;
+    line-height: 1.4;
+    flex-shrink: 0;
+}
+
+/* 切り取り線（破線部分は意図的に薄めのグレー） */
+.receipt-separator {
+    max-width: 680px;
+    margin: 0 auto;
+    height: 0;
+    border-top: 1.5px dashed var(--gray-dark);
+    text-align: center;
+    overflow: visible;
+    position: relative;
+}
+
+.receipt-separator span {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gray-lighter);
+    padding: 0 10px;
+    font-size: 0.72rem;
+    color: var(--gray-dark);
+    white-space: nowrap;
+}
+
+
+/* ================================================
+   印刷用スタイル
+   ================================================ */
+@media print {
+
+    /* 非表示にする要素 */
+    .no-print,
+    .ad-left,
+    .ad-right,
+    .ad-horizontal,
+    header,
+    footer {
+        display: none !important;
+    }
+
+    /* ページ設定 */
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+    }
+
+    .site-wrapper,
+    .container,
+    main {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .receipts-area {
+        margin: 0;
+    }
+
+    /* 3枚1組でページ区切り（常にA4の1/3固定サイズ。枚数で変わらない） */
+    .receipt-group {
+        page-break-after: always;
+        page-break-inside: avoid;
+        height: 277mm;
+        margin: 0;
+    }
+
+    .receipt-group:last-child {
+        page-break-after: auto;
+    }
+
+    /* 各領収書は常にA4の1/3の固定高（1枚だけ生成しても全面に広がらない）。
+       3枚(87mm)×2本の切り取り線(5mm)=271mmとし、印刷可能高277mmに対して
+       意図的に6mmの余白を残す。実測でページ末尾に接する最後の1枚だけが
+       Chromeのprint-to-pdfで数mm短くレンダリングされる現象を確認したため、
+       277mmぴったりに詰めず安全マージンを確保している（詳細は監査ログ）。 */
+    .receipt {
+        flex: none;
+        height: 87mm;
+        max-width: 100%;
+        box-shadow: none;
+        border: 1px solid #555;
+        border-radius: 0;
+        padding: 5mm 18mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0;
+        box-sizing: border-box;
+        min-height: 0;
+        /* 極端に長い住所・但し書きが入った場合の保険。通常の入力量では発生しない
+           （下記の内部余白調整で実測データが収まることを確認済み）。 */
+        overflow: hidden;
+    }
+
+    /* 1/3固定高(87mm)に収めるための内部余白の圧縮（項目・文言・順序は変更していない） */
+    .receipt-title {
+        padding-bottom: 6px;
+        margin: 0 0 4px 0;
+    }
+
+    .recipient-line {
+        margin-bottom: 4px;
+    }
+
+    .amount-line {
+        margin-bottom: 4px;
+    }
+
+    .purpose-line {
+        padding-bottom: 6px;
+        margin-bottom: 4px;
+    }
+
+    /* 切り取り線（固定高5mm。3枚なら2本入る） */
+    .receipt-separator {
+        height: 5mm;
+        max-width: 100%;
+        flex-shrink: 0;
+        margin: 0;
+        border-top: none;
+    }
+
+    .receipt-separator::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        border-top: 1px dashed #999;
+    }
+
+    .receipt-separator span {
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+    }
+
+    /* 印刷時の文字色を黒に統一 */
+    .receipt-title,
+    .recipient-name,
+    .recipient-sama,
+    .amount-label,
+    .amount-yen,
+    .amount-value,
+    .amount-nari,
+    .purpose-label,
+    .purpose-value,
+    .receipt-date,
+    .issuer-name {
+        color: #000 !important;
+    }
+
+    .issuer-address,
+    .issuer-tel {
+        color: #333 !important;
+    }
+
+    /* 金額ボックスは印刷時に背景なし */
+    .amount-line {
+        background: none;
+        border: none;
+        padding: 0;
+    }
+
+    .recipient-line {
+        border-bottom: 1px solid #000;
+    }
+
+    .stamp-box {
+        border: 1px solid #555;
+        color: #333;
+    }
+}
